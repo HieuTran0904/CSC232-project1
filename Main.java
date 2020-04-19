@@ -7,10 +7,11 @@ class Main {
 		Item k = new Item("Knife", "Tool", "Deadliest cooking material");
 		Item t = new Item("Turkey", "Food", "Good but not the best meat type");
 		Item p = new Item("Plate", "Tool", "Shiny silver ellipse object");
-
+		Item l = new Item("Toaster", "Appliance", "Stainless Classic Toaster");
 		loc.addItem(k);
 		loc.addItem(t);
 		loc.addItem(p);
+		loc.addItem(l);
 
         Scanner sc = new Scanner(System.in);
         
