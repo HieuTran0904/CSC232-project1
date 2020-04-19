@@ -91,14 +91,14 @@ class Location
     
     public void connect(String direction, Location place)
     {
-    	connections.put(direction, place);
+    	connections.put(direction.toLowerCase(), place);
     }
     
     public boolean canMove(String direction)
     {
-    	if(connections.containsKey(direction) == false)
+    	if(connections.containsKey(direction.toLowerCase()) == false)
     		return false;
-    	else if(connections.get(direction) == null)
+    	else if(connections.get(direction.toLowerCase()) == null)
     		return false;
     	else
     		return true;
@@ -106,12 +106,12 @@ class Location
     
     public Location getLocation(String direction)
     {
-    	if(connections.containsKey(direction) == false)
+    	if(connections.containsKey(direction.toLowerCase()) == false)
     		return null;
-    	else if(connections.get(direction) == null)
+    	else if(connections.get(direction.toLowerCase()) == null)
     		return null;
     	else
-    		return connections.get(direction);
+    		return connections.get(direction.toLowerCase());
     }
     
     
