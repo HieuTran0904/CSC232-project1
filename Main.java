@@ -11,8 +11,6 @@ class Main {
 		loc.addItem(k);
 		loc.addItem(t);
 		loc.addItem(p);
-		loc.addItem(l);
-		//run
 
         Scanner sc = new Scanner(System.in);
         
@@ -58,6 +56,7 @@ class Main {
             }
         }  
         //be de dam de bien thai
+        // fdfffdd
     }
     
 /*
