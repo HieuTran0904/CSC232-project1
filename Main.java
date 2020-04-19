@@ -12,6 +12,7 @@ class Main {
 		loc.addItem(t);
 		loc.addItem(p);
 		loc.addItem(l);
+		//run
 
         Scanner sc = new Scanner(System.in);
         
