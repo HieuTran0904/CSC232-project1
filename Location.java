@@ -1,14 +1,17 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 class Location
 {
     private String name, description;
 	private ArrayList<Item> items;
+	private HashMap<String, Location> connections;
 
     public Location(String name, String description)
     {
         this.name = name;
         this.description = description;
         items = new ArrayList<Item>();
+        connections = new HashMap<>();
     } 
 
     // Accessor for the name
@@ -85,4 +88,31 @@ class Location
 			}
 		return null;
     }
+    
+    public void connect(String direction, Location place)
+    {
+    	connections.put(direction, place);
+    }
+    
+    public boolean canMove(String direction)
+    {
+    	if(connections.containsKey(direction) == false)
+    		return false;
+    	else if(connections.get(direction) == null)
+    		return false;
+    	else
+    		return true;
+    }
+    
+    public Location getLocation(String direction)
+    {
+    	if(connections.containsKey(direction) == false)
+    		return null;
+    	else if(connections.get(direction) == null)
+    		return null;
+    	else
+    		return connections.get(direction);
+    }
+    
+    
 }
