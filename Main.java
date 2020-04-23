@@ -3,6 +3,8 @@ import java.util.Scanner;
 class Main {
 	
 	private static Location currentLocation;
+	private static ContainerItem myInventory;
+	// A bag of the character
     
 	public static void main(String[] args) {
     	
@@ -78,37 +80,61 @@ class Main {
     {
     	//Location: Kitchen
     	Location kitchen = new Location("Kitchen", "Cooking place");
-    	//Instantiate the item in the kitchen
+    	
+    	//Instantiate the item
     	Item kettle = new Item("Kettle", "Appliance", "Perfect for brewing hot tea and coffee");
     	Item turkey = new Item("Turkey", "Food", "Good but not the best meat type");
     	Item plate = new Item("Plate", "Dinnerware", "Shiny silver ellipse object");
     	Item toaster = new Item("Toaster", "Appliance", "Stainless Classic Toaster");
+    	Item knife = new Item("Knife", "Cutlery", "Japanese Knife");
+    	Item board = new Item("Cutting Board", "Tool", "Plastic Board")
     	//Add item to the kitchen
     	kitchen.addItem(kettle);
     	kitchen.addItem(turkey);
     	kitchen.addItem(plate);
     	kitchen.addItem(toaster);
     	
+    	//Instantiate a Container in the kitchen
+    	ContainerItem TBox = new ContainerItem("Toolbox", "Container", "A wooden box");
+    	kitchen.addItem(TBox);
+    	//Add new items to the box
+    	TBox.addItem(knife);
+    	TBox.addItem(board);
+    	
+    	
     	//Location: bedroom
     	Location bedroom = new Location("Bedroom", "Sleeping place");
-    	//Instantiate the item in the bedroom
+    	
+    	//Instantiate the item
     	Item bed = new Item("Bed", "Furniture", "Softest Bed on Earth");
     	Item wardrobe= new Item("Wardrobe", "Furniture", "Old Wardrobe from the 90s");
     	Item lamp = new Item("Lamp", "Furniture", "Rich textures, highlighted in silver leaf");
     	Item crib = new Item("Crib", "Furniture", "Easy to re-style and re-arrange");
+    	Item tee = new Item("Tee", "Clothes", "H&M Slim Fit");
+    	Item hoodie = new Item("Hoodie", "Clothes", "Soft, brushed inside");
     	//Add item to the bedroom
     	bedroom.addItem(bed);
     	bedroom.addItem(wardrobe);
     	bedroom.addItem(lamp);
     	bedroom.addItem(crib);
     	
+    	//Instantiate a Container in the bedroom
+    	ContainerItem dresser = new ContainerItem("Dresser", "Container", "Three-drawer chest");
+    	dresser.addItem(dresser);
+    	//Add item to the box
+    	dresser.addItem(tee);
+    	dresser.addItem(hoodie);
+    	
+    	
     	//Location: hallway
     	Location hallway = new Location("Hallway", "Path to go outside");
-    	//Instantiate the item in the hallway
+    	
+    	//Instantiate the item
     	Item ball = new Item("Ball", "Toy", "Ultra-durable and Chewy");
     	Item golf = new Item("Golf Stick", "Tool", "Fancy Golf Stick");
     	Item rug = new Item("Rug", "Decor", "Soft and Luxurious");
     	Item sword = new Item("Sword", "Decor", "An Old Sword from the ancient Greece");
+    	
     	//Add item to the hallway
     	hallway.addItem(ball);
     	hallway.addItem(golf);
@@ -117,16 +143,18 @@ class Main {
     	
     	//Location: bathroom
     	Location bathroom = new Location("Bathroom", "Shower");
-    	//Instantiate the item in the bathroom
+    	
+    	//Instantiate the item
     	Item razor = new Item("Razor", "Blade", "Unisex, Double sided, Handmade Metal");
     	Item hairDryer = new Item("Hairdryer", "Tool", "Salon-quality hairdryer");
     	Item towels = new Item("Towels", "Towel", "Extremely Soft on Face");
     	Item basket = new Item("Waste Basket", "Basket", "Open, Steel in Black, with small capacity");
+    	
     	//Add item to the bathroom
     	bathroom.addItem(razor);
     	bathroom.addItem(hairDryer);
-    	bathroom.addItem(rug);
-    	bathroom.addItem(sword);
+    	bathroom.addItem(towels);
+    	bathroom.addItem(basket);
     	
     	// Connect 4 places together.
 		kitchen.connect("north", hallway);
