@@ -246,6 +246,6 @@ class Main {
 		currentLocation = kitchen;
 		
 		//construct myInventory
-		myInventory = new ContainerItem("Backpack", "Container", "My own storage");
+		myInventory = new ContainerItem("Backpack", "Inventory", "My own storage");
     }
 }
