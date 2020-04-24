@@ -40,7 +40,7 @@ class Main {
             		{
                     	name = subCommand[0].trim();
                     	container = subCommand[1].trim();
-            			if(currentLocation.hasItem(container))
+            			if(currentLocation.hasItem(container) && currentLocation.getItem(container) instanceof ContainerItem)
             			{
             				if(myInventory.hasItem(name))
             				{
@@ -82,7 +82,7 @@ class Main {
                     {
                     	name = subCommand[0].trim();
                     	container = subCommand[1].trim();
-                    	if (currentLocation.hasItem(container))
+                    	if (currentLocation.hasItem(container) && currentLocation.getItem(container) instanceof ContainerItem)
                     	{
                     		ContainerItem containerItem = (ContainerItem) currentLocation.getItem(container);
                     		if (containerItem.hasItem(name))
@@ -113,6 +113,7 @@ class Main {
             			currentLocation.addItem(myInventory.removeItem(item));
             		else
             			System.out.println("Cannot find that item in your inventory.");
+            		break;
             		
             	case "help":
             		System.out.println("Type 'look' to see what is at your location");
