@@ -19,9 +19,112 @@ class Main {
         {
             System.out.print("Enter command: ");
             String command = sc.next();
+            String[] subCommand;
+            String item, name, container;
             
             switch (command)
             {
+            	case "put":
+            		do
+                    {
+                        item = sc.nextLine();
+                        item = item.trim();
+                        if (item.isEmpty())
+                            System.out.print("What do you want to examine? ");
+                    } while (item.isEmpty());
+            		subCommand = item.split(" in ");
+            		
+            		if(subCommand.length != 2)
+            			System.out.println("Invalid Command. Please try again.");
+            		else
+            		{
+                    	name = subCommand[0].trim();
+                    	container = subCommand[1].trim();
+            			if(currentLocation.hasItem(container))
+            			{
+            				if(myInventory.hasItem(name))
+            				{
+            					((ContainerItem) currentLocation.getItem(container)).addItem(myInventory.removeItem(name));
+            				}
+            				else
+            					System.out.println("You don't have that item in your inventory.");
+            			}
+            			else
+            				System.out.println("Invalid container.");
+            		}
+            		break;
+            		
+            	case "inventory":
+            		System.out.println(myInventory);
+            		break;
+            	
+            	case "take":
+            		do
+                    {
+                        item = sc.nextLine();
+                        item = item.trim();
+                        if (item.isEmpty())
+                            System.out.print("What do you want to examine? ");
+                    } while (item.isEmpty());
+            		subCommand = item.split(" from ");
+                    
+                    // if the command is "take [x]"
+                    if (subCommand.length == 1)
+                    {
+	                    if (currentLocation.hasItem(item))
+	                    	
+	                    	myInventory.addItem(currentLocation.removeItem(item));	
+	                    else
+	                    	System.out.println("I can't find that item here");
+                    }
+                    // if the command is "take [x] from [y]"
+                    else if (subCommand.length == 2)
+                    {
+                    	name = subCommand[0].trim();
+                    	container = subCommand[1].trim();
+                    	if (currentLocation.hasItem(container))
+                    	{
+                    		ContainerItem containerItem = (ContainerItem) currentLocation.getItem(container);
+                    		if (containerItem.hasItem(name))
+                    		{
+                    			myInventory.addItem(containerItem.removeItem(name));
+                    		}
+                    		else
+                    			System.out.println("I cannot find that item here");
+                    	}
+                    	else
+                    		System.out.println("I cannot find that container here");
+                    }
+                    else
+                    	System.out.println("It is not a valid command");
+                	break;
+            		
+            	case "drop":
+            		do
+                    {
+                        item = sc.nextLine();
+                        item = item.trim();
+                        if (item.isEmpty())
+                            System.out.print("What do you want to examine? ");
+                    } while (item.isEmpty());
+            		
+            		//check if the item is in the inventory or not
+            		if(myInventory.hasItem(item))
+            			currentLocation.addItem(myInventory.removeItem(item));
+            		else
+            			System.out.println("Cannot find that item in your inventory.");
+            		
+            	case "help":
+            		System.out.println("Type 'look' to see what is at your location");
+                	System.out.println("Type 'inventory' to see what is in your inventory");
+                	System.out.println("Type 'quit' to quit the game");
+                	System.out.println("Type 'examine x' - x is the item's name - to get its description");
+                	System.out.println("Type 'go x' - x is a direction - to go the direction of your choice, either North, South, West, or East");
+                	System.out.println("Type 'take x' - x is the item's name - to put that item from the location to your inventory");
+                	System.out.println("Type 'drop x' - x is the item's name - to drop that item from your inventory to the location");
+                	System.out.println("-------------- HAVE FUN --------------");
+                	break;
+            		
             	case "go":
             		String direction;
                     do
@@ -32,13 +135,15 @@ class Main {
                             System.out.print("Where do you want to go?");
                     } while (direction.isEmpty());
                     
+                    direction = direction.toLowerCase();
+                    
                     if(currentLocation.canMove(direction)) 
                     {
                     	currentLocation = currentLocation.getLocation(direction);
                     	System.out.println("You travel to the " + currentLocation.getName());
                     }
                     else
-                    	System.out.println("Sorry but that the location is not avaible. Please do something else");
+                    	System.out.println("Sorry but that the location or the direction is not available. Please do something else");
                     
                     break;
                     
@@ -53,7 +158,6 @@ class Main {
                     break;
                 
                 case "examine":
-                    String item;
                     do
                     {
                         item = sc.nextLine();
@@ -64,7 +168,7 @@ class Main {
 
                     Item it = currentLocation.getItem(item);
                     if (it != null)
-                        System.out.println(it.getName() + " - " + it.getDescription());
+                        System.out.println(it);
                     else
                         System.out.println("Cannot find that item");
                     break;
@@ -80,137 +184,53 @@ class Main {
     {
     	//Location: Kitchen
     	Location kitchen = new Location("Kitchen", "Cooking place");
-    	
-    	//Instantiate the item
-    	Item kettle = new Item("Kettle", "Appliance", "Perfect for brewing hot tea and coffee");
-    	Item turkey = new Item("Turkey", "Food", "Good but not the best meat type");
-    	Item plate = new Item("Plate", "Dinnerware", "Shiny silver ellipse object");
-    	Item toaster = new Item("Toaster", "Appliance", "Stainless Classic Toaster");
-    	Item knife = new Item("Knife", "Cutlery", "Japanese Knife");
-    	Item board = new Item("Cutting Board", "Tool", "Plastic Board")
-    	//Add item to the kitchen
-    	kitchen.addItem(kettle);
-    	kitchen.addItem(turkey);
-    	kitchen.addItem(plate);
-    	kitchen.addItem(toaster);
-    	
-    	//Instantiate a Container in the kitchen
-    	ContainerItem TBox = new ContainerItem("Toolbox", "Container", "A wooden box");
-    	kitchen.addItem(TBox);
-    	//Add new items to the box
-    	TBox.addItem(knife);
-    	TBox.addItem(board);
-    	
-    	
-    	//Location: bedroom
-    	Location bedroom = new Location("Bedroom", "Sleeping place");
-    	
-    	//Instantiate the item
-    	Item bed = new Item("Bed", "Furniture", "Softest Bed on Earth");
-    	Item wardrobe= new Item("Wardrobe", "Furniture", "Old Wardrobe from the 90s");
-    	Item lamp = new Item("Lamp", "Furniture", "Rich textures, highlighted in silver leaf");
-    	Item crib = new Item("Crib", "Furniture", "Easy to re-style and re-arrange");
-    	Item tee = new Item("Tee", "Clothes", "H&M Slim Fit");
-    	Item hoodie = new Item("Hoodie", "Clothes", "Soft, brushed inside");
-    	//Add item to the bedroom
-    	bedroom.addItem(bed);
-    	bedroom.addItem(wardrobe);
-    	bedroom.addItem(lamp);
-    	bedroom.addItem(crib);
-    	
-    	//Instantiate a Container in the bedroom
-    	ContainerItem dresser = new ContainerItem("Dresser", "Container", "Three-drawer chest");
-    	dresser.addItem(dresser);
-    	//Add item to the box
-    	dresser.addItem(tee);
-    	dresser.addItem(hoodie);
-    	
-    	
-    	//Location: hallway
-    	Location hallway = new Location("Hallway", "Path to go outside");
-    	
-    	//Instantiate the item
-    	Item ball = new Item("Ball", "Toy", "Ultra-durable and Chewy");
-    	Item golf = new Item("Golf Stick", "Tool", "Fancy Golf Stick");
-    	Item rug = new Item("Rug", "Decor", "Soft and Luxurious");
-    	Item sword = new Item("Sword", "Decor", "An Old Sword from the ancient Greece");
-    	
-    	//Add item to the hallway
-    	hallway.addItem(ball);
-    	hallway.addItem(golf);
-    	hallway.addItem(rug);
-    	hallway.addItem(sword);
-    	
-    	//Location: bathroom
-    	Location bathroom = new Location("Bathroom", "Shower");
-    	
-    	//Instantiate the item
-    	Item razor = new Item("Razor", "Blade", "Unisex, Double sided, Handmade Metal");
-    	Item hairDryer = new Item("Hairdryer", "Tool", "Salon-quality hairdryer");
-    	Item towels = new Item("Towels", "Towel", "Extremely Soft on Face");
-    	Item basket = new Item("Waste Basket", "Basket", "Open, Steel in Black, with small capacity");
-    	
-    	//Add item to the bathroom
-    	bathroom.addItem(razor);
-    	bathroom.addItem(hairDryer);
-    	bathroom.addItem(towels);
-    	bathroom.addItem(basket);
-    	
-    	// Connect 4 places together.
-		kitchen.connect("north", hallway);
-		kitchen.connect("east", bathroom);
-		
-		hallway.connect("south", kitchen);
-		
-		bathroom.connect("west", kitchen);
-		bathroom.connect("south", bedroom);
-		
-		bedroom.connect("north", bathroom);
-		
-		//assign currentLocation to kitchen
-		currentLocation = kitchen;
-    }
-    
-/*
- *  private static void createWorld()
-    {
-    	Location kitchen = new Location("Kitchen", "Cooking place");
+    	//Instantiate the items, container to the kitchen
     	kitchen.addItem(new Item("Kettle", "Appliance", "Perfect for brewing hot tea and coffee"));
     	kitchen.addItem(new Item("Turkey", "Food", "Good but not the best meat type"));
     	kitchen.addItem(new Item("Plate", "Dinnerware", "Shiny silver ellipse object"));
     	kitchen.addItem(new Item("Toaster", "Appliance", "Stainless Classic Toaster"));
     	kitchen.addItem(new ContainerItem("Toolbox", "Container", "A wooden box"));
+    	//Add items to the container
     	((ContainerItem) kitchen.getItem("Toolbox")).addItem(new Item("Knife", "Cutlery", "Japanese Knife"));
     	((ContainerItem) kitchen.getItem("Toolbox")).addItem(new Item("Cutting Board", "Tool", "Plastic Board"));
-    
-		Location bedroom = new Location("Bedroom", "Sleeping place");
+    	
+    	//Location: bedroom
+    	Location bedroom = new Location("Bedroom", "Sleeping place");
+    	//Instantiate the items, container to the bedroom
 		bedroom.addItem(new Item("Bed", "Furniture", "Softest Bed on Earth"));
 		bedroom.addItem(new Item("Wardrobe", "Furniture", "Old Wardrobe from the 90s"));
 		bedroom.addItem(new Item("Lamp", "Furniture", "Rich textures, highlighted in silver leaf"));
 		bedroom.addItem(new Item("Crib", "Furniture", "Easy to re-style and re-arrange"));
 		bedroom.addItem(new ContainerItem("Dresser", "Container", "Three-drawer chest"));
+		//Add items to the bedroom
     	((ContainerItem) bedroom.getItem("Dresser")).addItem(new Item("Tee", "Clothes", "H&M Slim Fit"));
     	((ContainerItem) bedroom.getItem("Dresser")).addItem(new Item("Hoodie", "Clothes", "Soft, brushed inside"));
-    	
-		Location hallway = new Location("Hallway", "Path to go outside");
+ 
+    	//Location: hallway
+    	Location hallway = new Location("Hallway", "Path to go outside");
+    	//Instantiate the items, container to the Hallway
 		hallway.addItem(new Item("Ball", "Toy", "Ultra-durable and Chewy"));
 		hallway.addItem(new Item("Golf Stick", "Tool", "Fancy Golf Stick"));
 		hallway.addItem(new Item("Rug", "Decor", "Soft and Luxurious"));
 		hallway.addItem(new Item("Sword", "Decor", "An Old Sword from the ancient Greece"));
 		hallway.addItem(new ContainerItem("Chest", "Container", "Made of 100% natural bamboo"));
+		//Add items to the container
     	((ContainerItem) hallway.getItem("Chest")).addItem(new Item("Adidas Shoes", "Shoes", "8.5 White Basketball Shoes"));
     	((ContainerItem) hallway.getItem("Chest")).addItem(new Item("Fur Slippers", "Slippers", "Grey, Ombre"));
     	
-		Location bathroom = new Location("Bathroom", "Shower");
-		bathroom.addItem(new Item("Razor", "Blade", "Unisex, Double sided, Handmade Metal"));
+    	//Location: bathroom
+    	Location bathroom = new Location("Bathroom", "Shower");
+    	//Instantiate the items, container to the bathroom
+    	bathroom.addItem(new Item("Razor", "Blade", "Unisex, Double sided, Handmade Metal"));
 		bathroom.addItem(new Item("Hairdryer", "Tool", "Salon-quality hairdryer"));
 		bathroom.addItem(new Item("Towels", "Towel", "Extremely Soft on Face"));
 		bathroom.addItem(new Item("Waste Basket", "Basket", "Open, Steel in Black, with small capacity"));
 		bathroom.addItem(new ContainerItem("Caddy", "Container", "A wooden box"));
+		//Add items to the container
     	((ContainerItem) bathroom.getItem("Caddy")).addItem(new Item("Shampoo", "Tool", "Expensive Shampoo"));
     	((ContainerItem) bathroom.getItem("Caddy")).addItem(new Item("Conditioner", "Tool", "Empty bottle of Hair Conditioner"));
     	
-		// connect all 4 to some of the others
+    	// Connect 4 places together.
 		kitchen.connect("north", hallway);
 		kitchen.connect("east", bathroom);
 		
@@ -226,8 +246,5 @@ class Main {
 		
 		//construct myInventory
 		myInventory = new ContainerItem("Backpack", "Container", "My own storage");
-		
-		
     }
- */
 }

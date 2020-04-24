@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+
 public class ContainerItem extends Item{
 	
 	private ArrayList<Item> items;
@@ -42,7 +43,7 @@ public class ContainerItem extends Item{
 	{
 		String contents = "";
 		for (Item item: this.items)
-			contents = contents + "\n+ " + item.getName();
+			contents = contents + "\n+ " + item.getName() + "-" + item.getType() + "-" + item.getDescription();
 		if (contents.length() == 0)
 			return "The inventory is emtpy";
 		return super.getName() + " [" + super.getType() + "]: " + super.getDescription() + " that contains:" + contents; 

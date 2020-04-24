@@ -80,7 +80,7 @@ class Location
     public Item removeItem(String i)
     {
         for (Item item: this.items)
-            if (item.getName().equals(i))
+            if (item.getName().toLowerCase().equals(i.toLowerCase()))
             {
                 Item ret = new Item(item); // copy constructor
                 this.items.remove(item);
