@@ -45,7 +45,7 @@ public class ContainerItem extends Item{
 		for (Item item: this.items)
 			contents = contents + "\n+ " + item;
 		if (contents.length() == 0)
-			return "The inventory is emtpy";
+			return "The " + super.getType().toLowerCase() + " is emtpy";
 		return super.getName() + " [" + super.getType() + "]: " + super.getDescription() + " that contains:" + contents; 
 	}
 }
