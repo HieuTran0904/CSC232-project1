@@ -43,7 +43,7 @@ public class ContainerItem extends Item{
 	{
 		String contents = "";
 		for (Item item: this.items)
-			contents = contents + "\n+ " + item.getName() + "-" + item.getType() + "-" + item.getDescription();
+			contents = contents + "\n+ " + item;
 		if (contents.length() == 0)
 			return "The inventory is emtpy";
 		return super.getName() + " [" + super.getType() + "]: " + super.getDescription() + " that contains:" + contents; 
